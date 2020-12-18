@@ -42,14 +42,15 @@ tasks.create(name: "${testTaskName}Coverage", type: JacocoReport, dependsOn: "$t
     ]
     def javaClasses = fileTree(dir: variant.javaCompiler.destinationDir, excludes: excludes)
     def kotlinClasses = fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}", excludes: excludes)
-    classDirectories = files([javaClasses, kotlinClasses])
+    additionalClassDirs(files([javaClasses, kotlinClasses]))
 
-    sourceDirectories = files([
+    additionalSourcedirs(files([
             "$project.projectDir/src/main/java",
             "$project.projectDir/src/${variantName}/java",
             "$project.projectDir/src/main/kotlin",
             "$project.projectDir/src/${variantName}/kotlin"
-    ])
+    ]))
 
-    executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+    executionData(files("${project.buildDir}/jacoco/${testTaskName}.exec"))
+
 }
